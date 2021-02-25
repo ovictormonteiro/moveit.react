@@ -54,7 +54,7 @@ export function ChallengesProvider({children}:ChallengesProviderProps){
     }
 
     function levelUp(){
-        setLevel(level + 1 );
+        setLevel(level + 1 );        
     }      
 
     function startNewChallenge(){
