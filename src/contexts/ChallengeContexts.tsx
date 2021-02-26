@@ -1,10 +1,15 @@
 import {createContext, useState, ReactNode, useEffect} from 'react';
+import Cookies from 'js-cookie';
 import Challenges from '../../challenges.json';
+
 
 // ==============Início das Interfaces TypeScript=====================
 
 interface ChallengesProviderProps{
-    children: ReactNode 
+    children: ReactNode,
+    level: number,
+    currentExperience: number,
+    challengesComputed: number
 }
 
 interface Challenge{
@@ -29,13 +34,15 @@ interface ChallengesContextData {
 
 export const ChallengeContext = createContext({} as ChallengesContextData);
 
-export function ChallengesProvider({children}:ChallengesProviderProps){
+export function ChallengesProvider(
+    {children, 
+    ...rest}:ChallengesProviderProps){
     
     // =====================Início das Constantes=======================
     
-    const [level, setLevel] = useState(1);
-    const [currentExperience, setCurrentExperience] = useState(0);
-    const [challengesComputed, setChallengesComputed] = useState(0);
+    const [level, setLevel] = useState(rest.level ?? 1);
+    const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
+    const [challengesComputed, setChallengesComputed] = useState(rest.challengesComputed ?? 0);
     const [activeChallenge, setActiveChallenge] = useState(null);
     const experienceToNextLevel = Math.pow((level + 1) * 4,2);
 
@@ -43,6 +50,12 @@ export function ChallengesProvider({children}:ChallengesProviderProps){
 
     // ================Início das Funções===============
 
+
+    useEffect(()=>{
+        Cookies.set('level',level.toString());
+        Cookies.set('currentExperience',currentExperience.toString());
+        Cookies.set('challengesComputed',challengesComputed.toString());
+    },[level,currentExperience,challengesComputed])
 
     useEffect(()=>{
         Notification.requestPermission();        
