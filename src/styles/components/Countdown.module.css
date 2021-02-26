@@ -70,3 +70,13 @@
     color: var(--title);
     cursor: not-allowed;
 }
+
+@media (max-width: 281px){
+    .countdownContainer{
+        flex-direction: column;
+    }
+
+    .countdownContainer>span{
+        font-size: 5rem;
+    }
+}
